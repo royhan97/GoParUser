@@ -140,12 +140,18 @@ public class DetailProfileActivity extends AppCompatActivity implements TimeLine
     }
 
     @Override
-    public void onItemClick(Timeline timeline, List<Media> mediaList, User user)  {
+    public void onItemClick(Timeline timeline, List<Media> mediaList, User user, String url)  {
         Intent intent = new Intent(DetailProfileActivity.this, DetailsTimelineActivity.class);
         intent.putExtra("timeline", timeline);
         intent.putParcelableArrayListExtra("media", (ArrayList<? extends Parcelable>) mediaList);
         intent.putExtra("user", user);
         startActivity(intent);
+    }
+
+
+    @Override
+    public void onItemClick(Timeline timeline, List<Media> mediaList, User user) {
+
     }
 
     @Override

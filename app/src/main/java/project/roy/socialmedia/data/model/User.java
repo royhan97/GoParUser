@@ -118,8 +118,8 @@ public class User implements Parcelable{
         this.userAccess = userAccess;
     }
 
-    public Object getPicture() {
-        return picture;
+    public String getPicture() {
+        return (String) picture;
     }
 
     public void setPicture(Object picture) {

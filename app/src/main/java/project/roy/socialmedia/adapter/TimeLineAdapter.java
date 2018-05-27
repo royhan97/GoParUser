@@ -78,7 +78,10 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.RoomCh
             e.printStackTrace();
         }
 
-        holder.itemView.setOnClickListener(v -> onDetailListener.onItemClick(timelineList.get(position), timelineList.get(position).getMedia(), timelineList.get(position).getUser()));
+        holder.itemView.setOnClickListener(v -> onDetailListener.onItemClick(timelineList.get(position),
+                timelineList.get(position).getMedia(),
+                timelineList.get(position).getUser(),
+                timelineList.get(position).getUser().getPicture()));
 
         holder.authorImageView.setOnClickListener(v -> onDetailListener.onAuthorClick(timelineList.get(position).getUser().getId()));
         if(timelineList.get(position).getUser().getId()== SaveUserData.getInstance().getUser().getId()){
@@ -135,7 +138,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.RoomCh
     }
 
     public interface OnDetailListener{
-        void onItemClick(Timeline timeline, List<Media> mediaList, User user);
+        void onItemClick(Timeline timeline, List<Media> mediaList, User user, String urlPicture);
 //
 //        void onLikeClick(LikeController likeController, int position);
 

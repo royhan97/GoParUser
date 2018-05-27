@@ -152,11 +152,12 @@ public class TimelineFragment extends Fragment implements TimelineView, TimeLine
     }
 
     @Override
-    public void onItemClick(Timeline timeline, List<Media> mediaList, User user)  {
+    public void onItemClick(Timeline timeline, List<Media> mediaList, User user, String url)  {
         Intent intent = new Intent(getActivity(), DetailsTimelineActivity.class);
         intent.putExtra("timeline", timeline);
         intent.putParcelableArrayListExtra("media", (ArrayList<? extends Parcelable>) mediaList);
         intent.putExtra("user", user);
+        intent.putExtra("url", url);
         startActivity(intent);
     }
 

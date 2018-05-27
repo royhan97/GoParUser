@@ -195,8 +195,8 @@ public class DetailsTimelineActivity extends AppCompatActivity implements Commen
             progressBar.setVisibility(View.GONE);
         }
 
-        if (user.getPicture() != null){
-            Picasso.get().load(Constant.BASE_URL+ user.getPicture().toString())
+        if (getIntent().getStringExtra("url") != null){
+            Picasso.get().load(Constant.BASE_URL+ getIntent().getStringExtra("url"))
                     .into(authorImageView);
             progressBar.setVisibility(View.GONE);
         }
@@ -239,6 +239,7 @@ public class DetailsTimelineActivity extends AppCompatActivity implements Commen
         commentarAdapter.setOnClickDetailListener(this);
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(DetailsTimelineActivity.this));
         commentsRecyclerView.setAdapter(commentarAdapter);
+
     }
 
     private void initPresenter(){

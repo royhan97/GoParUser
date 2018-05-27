@@ -535,7 +535,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    public void onItemClick(Timeline timeline, List<Media> mediaList, User user) {
+    public void onItemClick(Timeline timeline, List<Media> mediaList, User user, String url) {
         Intent intent = new Intent(this, DetailsTimelineActivity.class);
         intent.putExtra("timeline", timeline);
         intent.putParcelableArrayListExtra("media", (ArrayList<? extends Parcelable>) mediaList);
