@@ -27,6 +27,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,6 +44,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import project.roy.socialmedia.R;
 import project.roy.socialmedia.data.local.SaveUserData;
 import project.roy.socialmedia.data.model.Timeline;
@@ -61,6 +65,8 @@ public class CreatePostActivity extends PickImageActivity implements TimelineVie
     protected EditText descriptionEditText;
     protected TimelinePresenter presenter;
     protected boolean creatingPost = false;
+    private MultipartBody.Part fileToUpload;
+    private RequestBody filename;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,9 +160,20 @@ public class CreatePostActivity extends PickImageActivity implements TimelineVie
         showProgress(R.string.message_creating_post);
         System.out.println("path uri : " + imageUri.getPath());
         File file = new File(Objects.requireNonNull(getPath(CreatePostActivity.this, imageUri)));
+        RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
+        fileToUpload = MultipartBody.Part.createFormData("media[]", file.getName(), mFile);
+        filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
         System.out.println("file uri : " + file);
         media.add(file);
-        presenter.postTimeline(SaveUserData.getInstance().getUser().getId(),description, file);
+        presenter.postTimeline(SaveUserData.getInstance().getUser().getId(),description, filename, fileToUpload);
+
+
+//        String filePath = getRealPathFromURIPath(uri, getActivity());
+//        Log.d(TAG, "Filename " + filePath);
+//        File file = new File(filePath);
+//        RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
+
+//        imgMateri.setImageURI(uri);
     }
 
 

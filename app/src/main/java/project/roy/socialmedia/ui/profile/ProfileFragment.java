@@ -62,7 +62,7 @@ public class ProfileFragment extends Fragment implements TimelineView, TimeLineA
             public void onRefresh() {
                 rvReminder.setVisibility(View.GONE);
                 pb.setVisibility(View.VISIBLE);
-                timelinePresenter.getTimeline();
+                timelinePresenter.showTimelineBySelfId();
                 swipeToRefresh.setRefreshing(false);
             }
         });

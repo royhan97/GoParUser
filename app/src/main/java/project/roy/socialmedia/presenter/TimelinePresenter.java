@@ -10,6 +10,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import project.roy.socialmedia.data.local.SaveUserData;
 import project.roy.socialmedia.data.model.Reminder;
 import project.roy.socialmedia.data.model.Timeline;
@@ -87,10 +89,10 @@ public class TimelinePresenter {
                 });
     }
 
-    public void postTimeline(int userId, String moment, File media ){
+    public void postTimeline(int userId, String moment, RequestBody name, MultipartBody.Part file ){
         RetrofitClient.getInstance()
                 .getApi()
-                .postTimeline(userId,moment,media)
+                .postTimeline(userId,moment, name,file)
                 .enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

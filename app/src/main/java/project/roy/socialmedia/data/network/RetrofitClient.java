@@ -14,6 +14,7 @@ import project.roy.socialmedia.data.local.SaveUserToken;
 import project.roy.socialmedia.util.Constant;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * Created by roy on 4/9/2018.
@@ -69,6 +70,7 @@ public class RetrofitClient {
         return new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
                 .client(okHttpClient)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

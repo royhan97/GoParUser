@@ -72,11 +72,11 @@ public interface Api {
     @GET("api/timeline/show")
     Call<JsonObject> showTimeline();
 
-    @POST("api/timeline/post")
-    @FormUrlEncoded
-    Call<JsonObject> postTimeline(@Field("user_id") int userId,
-                                  @Field("timeline_moment") String moment,
-                                  @Field("media[]") File media);
+//    @POST("api/timeline/post")
+//    @FormUrlEncoded
+//    Call<JsonObject> postTimeline(@Field("user_id") int userId,
+//                                  @Field("timeline_moment") String moment,
+//                                  @Field("media[]") File media);
 
     @GET("api/timeline/showDetail/{idTimeline}")
     Call<JsonObject> showDetailTimeline(@Path("idTimeline") int idTimeline);
@@ -93,6 +93,13 @@ public interface Api {
                                    @Field("timeline_id") String timelineId,
                                    @Field("timeline_commentar") String timelineCommentar);
 
+    @Multipart
+    @POST("api/timeline/post")
+    Call<JsonObject> postTimeline(
+            @Part("user_id") int userId,
+            @Part("timeline_moment") String moment,
+            @Part("media[]") RequestBody name,
+            @Part MultipartBody.Part file);
 
     @GET("api/commentar/showbytimelineid/{timelineId}")
     Call<JsonObject> getCommentarByTimelineId(@Path("timelineId") String timelineId);
