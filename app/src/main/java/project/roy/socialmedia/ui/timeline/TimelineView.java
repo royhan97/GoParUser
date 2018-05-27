@@ -12,4 +12,8 @@ public interface TimelineView {
     void onSuccessPostTimeline(String messages);
 
     void onFailurePostTimeline(String messages);
+
+    void onSuccessDeleteTimeline(String message);
+
+    void onFailedDeleteTimeline(String message);
 }

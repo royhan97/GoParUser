@@ -10,6 +10,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import project.roy.socialmedia.data.local.SaveUserData;
 import project.roy.socialmedia.data.model.Reminder;
 import project.roy.socialmedia.data.model.Timeline;
 import project.roy.socialmedia.data.network.RetrofitClient;
@@ -117,6 +118,95 @@ public class TimelinePresenter {
         RetrofitClient.getInstance()
                 .getApi()
                 .showDetailTimeline(idTimeline)
+                .enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if(response.isSuccessful()){
+                            JsonObject body = response.body();
+                            boolean status = body.get("status").getAsBoolean();
+                            if(status){
+                                JsonArray timelineArray = body.get("data").getAsJsonArray();
+                                Type type = new TypeToken<List<Timeline>>(){}.getType();
+                                List<Timeline> timelineList =  new Gson().fromJson(timelineArray, type);
+                                timelineView.onSuccessShowTimeline(timelineList);
+                            }else{
+                                timelineView.onFailureShowTimeline(body.get("messages").getAsString());
+                            }
+                        }else{
+                            timelineView.onFailureShowTimeline("No Data Found");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        timelineView.onFailureShowTimeline("Server Error");
+                    }
+                });
+    }
+
+    public void deleteTimeline(int timelineId){
+        RetrofitClient.getInstance()
+                .getApi()
+                .deleteTimeline(timelineId)
+                .enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if(response.isSuccessful()){
+                            JsonObject body = response.body();
+                            boolean status = body.get("status").getAsBoolean();
+                            String message = body.get("messages").getAsString();
+                            if(status){
+                                timelineView.onSuccessDeleteTimeline(message);
+                            }else {
+                                timelineView.onFailedDeleteTimeline(message);
+                            }
+                        }else {
+                            timelineView.onFailedDeleteTimeline("Hapus komentar gagal");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        timelineView.onFailedDeleteTimeline(t.getMessage());
+                    }
+                });
+
+    }
+
+    public void showTimelineBySelfId(){
+        RetrofitClient.getInstance()
+                .getApi()
+                .showSelfTimeline(SaveUserData.getInstance().getUser().getId())
+                .enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if(response.isSuccessful()){
+                            JsonObject body = response.body();
+                            boolean status = body.get("status").getAsBoolean();
+                            if(status){
+                                JsonArray timelineArray = body.get("data").getAsJsonArray();
+                                Type type = new TypeToken<List<Timeline>>(){}.getType();
+                                List<Timeline> timelineList =  new Gson().fromJson(timelineArray, type);
+                                timelineView.onSuccessShowTimeline(timelineList);
+                            }else{
+                                timelineView.onFailureShowTimeline(body.get("messages").getAsString());
+                            }
+                        }else{
+                            timelineView.onFailureShowTimeline("No Data Found");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        timelineView.onFailureShowTimeline("Server Error");
+                    }
+                });
+    }
+
+    public void showTimelineBySelfIdDetailProfile(String userId){
+        RetrofitClient.getInstance()
+                .getApi()
+                .showSelfTimeline(Integer.parseInt(userId))
                 .enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

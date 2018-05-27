@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.tips.DetailTipsActivity">
-    <LinearLayout
+    tools:context=".ui.reminder.DetailReminderActivity">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -19,33 +19,27 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
         </android.support.v7.widget.Toolbar>
 
-        <android.support.design.widget.TextInputLayout
+        <TextView
+            android:id="@+id/tv_tips_title"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:text="@string/text_tips_title"
+            android:layout_below="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textColorHint="#c5c5c5">
-            <EditText
-                android:id="@+id/et_tips_title"
-                android:inputType="textCapWords"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/text_tips_title"
-                android:enabled="false"
-                android:textColor="@color/edittextselectorcolor" />
-        </android.support.design.widget.TextInputLayout>
+            android:layout_height="wrap_content" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+
+        <TextView
+            android:id="@+id/tv_tips_description"
+            android:textColor="@android:color/black"
             android:layout_margin="10dp"
-            android:textColorHint="#c5c5c5">
-            <EditText
-                android:id="@+id/et_tips_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/text_tips_description"
-                android:enabled="false"
-                android:textColor="@color/edittextselectorcolor"/>
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
+            android:textSize="15sp"
+            android:text="@string/text_tips_description"
+            android:layout_below="@+id/tv_tips_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

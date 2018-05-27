@@ -1,61 +1,47 @@
-package project.roy.socialmedia.ui.timeline;
+package project.roy.socialmedia.ui.profile;
 
 
-import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SimpleItemAnimator;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import project.roy.socialmedia.R;
-import project.roy.socialmedia.adapter.ReminderAdapter;
 import project.roy.socialmedia.adapter.TimeLineAdapter;
 import project.roy.socialmedia.data.model.Media;
 import project.roy.socialmedia.data.model.Timeline;
 import project.roy.socialmedia.data.model.User;
-import project.roy.socialmedia.presenter.ReminderPresenter;
 import project.roy.socialmedia.presenter.TimelinePresenter;
 import project.roy.socialmedia.ui.account.AccountActivity;
-import project.roy.socialmedia.ui.detailprofile.DetailProfileActivity;
 import project.roy.socialmedia.ui.post.CreatePostActivity;
-import project.roy.socialmedia.ui.reminder.ReminderView;
+import project.roy.socialmedia.ui.timeline.DetailsTimelineActivity;
+import project.roy.socialmedia.ui.timeline.TimelineView;
 import project.roy.socialmedia.util.ShowAlert;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TimelineFragment extends Fragment implements TimelineView, TimeLineAdapter.OnDetailListener, View.OnClickListener {
+public class ProfileFragment extends Fragment implements TimelineView, TimeLineAdapter.OnDetailListener {
 
 
     private TimelinePresenter timelinePresenter;
     private TimeLineAdapter timelineAdapter;
     private ProgressBar pb;
     private SwipeRefreshLayout swipeToRefresh;
-    private FloatingActionButton fab;
     private TextView tvEmptyPost;
     private RecyclerView rvReminder;
     private AlertDialog alert;
@@ -65,11 +51,10 @@ public class TimelineFragment extends Fragment implements TimelineView, TimeLine
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_timeline, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         rvReminder = view.findViewById(R.id.recycler_view);
         pb = view.findViewById(R.id.progressBar);
-        fab = view.findViewById(R.id.addNewPostFab);
         swipeToRefresh = view.findViewById(R.id.swipeContainer);
         tvEmptyPost = view.findViewById(R.id.empty_post);
         swipeToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -82,7 +67,6 @@ public class TimelineFragment extends Fragment implements TimelineView, TimeLine
             }
         });
 
-        fab.setOnClickListener(this);
 
         return view;
     }
@@ -96,7 +80,7 @@ public class TimelineFragment extends Fragment implements TimelineView, TimeLine
 
     private void initPresenter() {
         timelinePresenter = new TimelinePresenter(this);
-        timelinePresenter.getTimeline();
+        timelinePresenter.showTimelineBySelfId();
     }
 
     private void initView() {
@@ -142,7 +126,7 @@ public class TimelineFragment extends Fragment implements TimelineView, TimeLine
     public void onSuccessDeleteTimeline(String message) {
         ShowAlert.showToast(getActivity(), message);
         ShowAlert.closeProgresDialog();
-        timelinePresenter.getTimeline();
+        timelinePresenter.showTimelineBySelfId();
     }
 
     @Override
@@ -195,17 +179,8 @@ public class TimelineFragment extends Fragment implements TimelineView, TimeLine
 
     @Override
     public void onNameSelected(User user) {
-        Intent intent = new Intent(getActivity(), DetailProfileActivity.class);
-        intent.putExtra("user", user);
-        startActivity(intent);
 
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.addNewPostFab){
-            Intent intent = new Intent(getActivity(), CreatePostActivity.class);
-            startActivity(intent);
-        }
-    }
+
 }

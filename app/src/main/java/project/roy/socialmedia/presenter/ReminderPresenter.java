@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import project.roy.socialmedia.data.local.SaveUserData;
 import project.roy.socialmedia.data.model.Reminder;
 import project.roy.socialmedia.data.network.RetrofitClient;
 import project.roy.socialmedia.ui.reminder.ReminderView;
@@ -26,7 +27,7 @@ public class ReminderPresenter {
     public void showAllReminder(){
         RetrofitClient.getInstance()
                 .getApi()
-                .showAllReminder()
+                .showAllReminderByAge(SaveUserData.getInstance().getChildrenAge())
                 .enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

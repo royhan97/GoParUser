@@ -27,13 +27,13 @@ import project.roy.socialmedia.data.model.User;
 import project.roy.socialmedia.util.Constant;
 import project.roy.socialmedia.util.FormatterUtil;
 
-public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.RoomChatViewHolder> {
+public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.RoomChatViewHolder> {
 
     private Context context;
     private List<Timeline> timelineList;
     private OnDetailListener onDetailListener;
 
-    public TimeLineAdapter(Context context) {
+    public ProfileAdapter(Context context) {
         this.context = context;
     }
 
@@ -43,9 +43,9 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.RoomCh
     }
 
     @Override
-    public TimeLineAdapter.RoomChatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RoomChatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item_list_view, parent, false);
-        return new TimeLineAdapter.RoomChatViewHolder(view);
+        return new RoomChatViewHolder(view);
     }
 
     @Override
@@ -92,13 +92,6 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.RoomCh
                 onDetailListener.onDeleteTimeline(timelineList.get(position).getId());
             }
         });
-
-        holder.titleTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onDetailListener.onNameSelected(timelineList.get(position).getUser());
-            }
-        });
     }
 
     public void setOnClickDetailListener(OnDetailListener onDetailListener){
@@ -142,7 +135,5 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.RoomCh
         void onAuthorClick(int idUser);
 
         void onDeleteTimeline(int timelineId);
-
-        void onNameSelected(User user);
     }
 }

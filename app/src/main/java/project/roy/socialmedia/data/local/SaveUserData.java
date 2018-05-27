@@ -43,4 +43,12 @@ public class SaveUserData {
     public String getImagePath(){
         return SharedPrefUtil.getString(Constant.KEY_PATH_IMG);
     }
+
+    public void saveUserChildrenAge(String childrenAge){
+        SharedPrefUtil.saveString(Constant.CHILDREN_AGE , childrenAge);
+    }
+    public  String getChildrenAge(){
+        return SharedPrefUtil.getString(Constant.CHILDREN_AGE);
+    }
+
 }

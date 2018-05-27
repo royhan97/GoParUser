@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import project.roy.socialmedia.util.ShowAlert;
 
 public class DetailTipsActivity extends AppCompatActivity implements TipsView {
 
-    private EditText etTipsTitle, etTipsDescription;
+    private TextView tvTipsTitle, tvTipsDescription;
     private TipsPresenter detailTipsPresenter;
     private int tipsId;
     private AlertDialog alert;
@@ -36,8 +37,8 @@ public class DetailTipsActivity extends AppCompatActivity implements TipsView {
         setTitle("Detail Tips");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        etTipsTitle = findViewById(R.id.et_tips_title);
-        etTipsDescription = findViewById(R.id.et_tips_description);
+        tvTipsTitle = findViewById(R.id.tv_tips_title);
+        tvTipsDescription = findViewById(R.id.tv_tips_description);
         tipsId = getIntent().getExtras().getInt("tipsId");
         initPresenter();
     }
@@ -65,8 +66,8 @@ public class DetailTipsActivity extends AppCompatActivity implements TipsView {
     @Override
     public void onSuccessShowDetailTips(Tips tips) {
         ShowAlert.closeProgresDialog();
-        etTipsTitle.setText(tips.getTipsTitle());
-        etTipsDescription.setText(tips.getTipsDescription());
+        tvTipsTitle.setText(tips.getTipsTitle());
+        tvTipsDescription.setText(tips.getTipsDescription());
     }
 
     @Override

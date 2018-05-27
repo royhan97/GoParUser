@@ -7,10 +7,16 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import project.roy.socialmedia.R;
 import project.roy.socialmedia.presenter.LoginRegisterPresenter;
@@ -29,6 +35,8 @@ public class RegisterActivity extends AppCompatActivity implements LoginRegister
     private LoginRegisterPresenter loginPresenter;
     private CoordinatorLayout coordinatorLayout;
     private ImageView imgVisibility, imgInvisibility;
+    private Spinner spnChildrenAge;
+    private String childrenAgeSelected;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,12 +50,14 @@ public class RegisterActivity extends AppCompatActivity implements LoginRegister
         coordinatorLayout = findViewById(R.id.coordinator);
         imgVisibility = findViewById(R.id.img_visibility);
         imgInvisibility = findViewById(R.id.img_invisibility);
+        spnChildrenAge = findViewById(R.id.spn_children_age);
         loginPresenter = new LoginRegisterPresenter(this);
 
         btnRegister.setOnClickListener(this);
         txtLogin.setOnClickListener(this);
         imgVisibility.setOnClickListener(this);
         imgInvisibility.setOnClickListener(this);
+        initSpinner();
     }
 
     @Override
@@ -58,6 +68,32 @@ public class RegisterActivity extends AppCompatActivity implements LoginRegister
     @Override
     public void gotoHome() {
 
+    }
+
+    private void initSpinner(){
+        final List<String> list = new ArrayList<String>();
+        list.add("Usia Anak Anda");
+        list.add("< 1 Tahun");
+        list.add("1 Tahun");
+        list.add("2 Tahun");
+        list.add("3 Tahun");
+        ArrayAdapter<String> adp1 = new ArrayAdapter<String>(this,
+                R.layout.spinner_item, list);
+        adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnChildrenAge.setAdapter(adp1);
+        spnChildrenAge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
+                // TODO Auto-generated method stub
+                childrenAgeSelected = list.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
     }
 
     @Override
@@ -80,9 +116,11 @@ public class RegisterActivity extends AppCompatActivity implements LoginRegister
             }else if (name.isEmpty()){
                 etName.setError(getResources().getString(R.string.txt_name_empty));
                 etName.requestFocus();
+            }else if(childrenAgeSelected.isEmpty() || childrenAgeSelected.equals("Usia Anak Anda")){
+                ShowAlert.showToast(getApplicationContext(), "Anda belum memilih usia anak");
             }
             else {
-                loginPresenter.userRegister(this,name,username, password);
+                loginPresenter.userRegister(this,name,username, password, childrenAgeSelected);
             }
         }
         if (v.getId() == R.id.txt_login){

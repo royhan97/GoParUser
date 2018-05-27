@@ -69,13 +69,20 @@ import java.util.Date;
 import java.util.List;
 
 import project.roy.socialmedia.R;
+import project.roy.socialmedia.adapter.CommentarAdapter;
+import project.roy.socialmedia.adapter.TimeLineAdapter;
+import project.roy.socialmedia.data.local.SaveUserData;
+import project.roy.socialmedia.data.model.Commentar;
 import project.roy.socialmedia.data.model.Media;
 import project.roy.socialmedia.data.model.Timeline;
 import project.roy.socialmedia.data.model.User;
+import project.roy.socialmedia.presenter.CommentarPresenter;
+import project.roy.socialmedia.ui.detailprofile.DetailProfileActivity;
 import project.roy.socialmedia.util.Constant;
 import project.roy.socialmedia.util.FormatterUtil;
+import project.roy.socialmedia.util.ShowAlert;
 
-public class DetailsTimelineActivity extends AppCompatActivity {
+public class DetailsTimelineActivity extends AppCompatActivity implements CommentarView, View.OnClickListener, CommentarAdapter.OnDetailListener {
 
     public static final String POST_ID_EXTRA_KEY = "PostDetailsActivity.POST_ID_EXTRA_KEY";
     public static final String AUTHOR_ANIMATION_NEEDED_EXTRA_KEY = "PostDetailsActivity.AUTHOR_ANIMATION_NEEDED_EXTRA_KEY";
@@ -102,6 +109,13 @@ public class DetailsTimelineActivity extends AppCompatActivity {
     private ProgressBar commentsProgressBar;
     private RecyclerView commentsRecyclerView;
     private TextView warningCommentsTextView;
+    private CommentarPresenter commentarPresenter;
+    private Button btnSendCommentar;
+    private Timeline timeline;
+    private User user;
+    private CommentarAdapter commentarAdapter;
+    private AlertDialog alert;
+    private AlertDialog.Builder builder;
 
     private boolean attemptToLoadComments = false;
 
@@ -136,25 +150,26 @@ public class DetailsTimelineActivity extends AppCompatActivity {
         scrollView =  findViewById(R.id.scrollView);
         commentsLabel =  findViewById(R.id.commentsLabel);
         commentEditText = findViewById(R.id.commentEditText);
-        likesContainer =  findViewById(R.id.likesContainer);
-        likesImageView =  findViewById(R.id.likesImageView);
         authorImageView =  findViewById(R.id.authorImageView);
         authorTextView =  findViewById(R.id.authorTextView);
-        likeCounterTextView =  findViewById(R.id.likeCounterTextView);
-        commentsCountTextView =  findViewById(R.id.commentsCountTextView);
-        watcherCounterTextView =  findViewById(R.id.watcherCounterTextView);
         dateTextView =  findViewById(R.id.dateTextView);
         commentsProgressBar =  findViewById(R.id.commentsProgressBar);
         warningCommentsTextView =  findViewById(R.id.warningCommentsTextView);
         warningNoCommentsTextView = findViewById(R.id.warningNoCommentsTextView);
-
+        btnSendCommentar = findViewById(R.id.sendButton);
+        btnSendCommentar.setOnClickListener(this);
+        authorTextView.setOnClickListener(this);
         initView();
+        initPresenter();
     }
 
     public void initView (){
-        Timeline timeline = getIntent().getParcelableExtra("timeline");
+        timeline = getIntent().getParcelableExtra("timeline");
+        user = getIntent().getParcelableExtra("user");
+        setTitle(user.getName());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         ArrayList<Media> media = getIntent().getParcelableArrayListExtra("media");
-        User user = getIntent().getParcelableExtra("user");
 
         System.out.println("user pic " + user.getPicture());
 
@@ -198,6 +213,154 @@ public class DetailsTimelineActivity extends AppCompatActivity {
             warningNoCommentsTextView.setVisibility(View.VISIBLE);
             commentsProgressBar.setVisibility(View.GONE);
         }
+
+        commentEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.toString().length() > 0){
+                    btnSendCommentar.setEnabled(true);
+                }else{
+                    btnSendCommentar.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        commentarAdapter = new CommentarAdapter(DetailsTimelineActivity.this);
+        commentarAdapter.setOnClickDetailListener(this);
+        commentsRecyclerView.setLayoutManager(new LinearLayoutManager(DetailsTimelineActivity.this));
+        commentsRecyclerView.setAdapter(commentarAdapter);
     }
 
+    private void initPresenter(){
+        commentarPresenter = new CommentarPresenter(this);
+        commentarPresenter.getCommentarByTimelineId(String.valueOf(timeline.getId()));
+    }
+
+    @Override
+    public void onFailedPostCommentar(String message) {
+        ShowAlert.showToast(DetailsTimelineActivity.this, message);
+    }
+
+    @Override
+    public void onSuccessPostCommentar(String message) {
+        commentarPresenter.getCommentarByTimelineId(String.valueOf(timeline.getId()));
+        commentEditText.setText("");
+        hideKeyboard();
+        ShowAlert.showToast(DetailsTimelineActivity.this, message);
+
+    }
+
+    @Override
+    public void onSuccessShowAllCommentarByTimelineId(List<Commentar> reminderList) {
+        commentsProgressBar.setVisibility(View.GONE);
+        if (reminderList.size() < 1){
+            warningNoCommentsTextView.setVisibility(View.VISIBLE);
+            commentsRecyclerView.setVisibility(View.GONE);
+        }
+        else {
+            commentsRecyclerView.setVisibility(View.VISIBLE);
+            warningNoCommentsTextView.setVisibility(View.GONE);
+            commentarAdapter.setData(reminderList);
+        }
+    }
+
+    @Override
+    public void onFailedShowAllCommentarByTimelineId(String messages) {
+        warningNoCommentsTextView.setVisibility(View.VISIBLE);
+        warningNoCommentsTextView.setText(messages);
+        commentsRecyclerView.setVisibility(View.GONE);
+        commentsProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onFailedDeleteCommentar(String message) {
+        ShowAlert.closeProgresDialog();
+        ShowAlert.showToast(DetailsTimelineActivity.this, message);
+    }
+
+    @Override
+    public void onSuccessDeleteCommentar(String message) {
+        ShowAlert.closeProgresDialog();
+        ShowAlert.showToast(DetailsTimelineActivity.this, message);
+        commentarPresenter.getCommentarByTimelineId(String.valueOf(timeline.getId()));
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.sendButton){
+            String timelineCommentar = commentEditText.getText().toString().trim();
+            if(timelineCommentar.isEmpty()){
+                ShowAlert.showToast(DetailsTimelineActivity.this, "Anda belum mengisi komentar");
+            }else{
+                commentarPresenter.postCommentar(String.valueOf(timeline.getId()), timelineCommentar);
+            }
+
+        }
+
+        if(view.getId() == R.id.authorTextView){
+            Intent intent = new Intent(this, DetailProfileActivity.class);
+            intent.putExtra("user", user);
+            startActivity(intent);
+        }
+    }
+
+    private void hideKeyboard(){
+        // Check if no view has focus:
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    @Override
+    public void onItemDetailClicked(int tipsId) {
+
+    }
+
+    @Override
+    public void onImgDeleteCommentarSelected(int timelineId) {
+        builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setMessage(getString(R.string.text_delete_commentar_confirmation));
+        builder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(ShowAlert.dialog != null && ShowAlert.dialog.isShowing()){
+                    ShowAlert.closeProgresDialog();
+                }
+                ShowAlert.showProgresDialog(DetailsTimelineActivity.this);
+                commentarPresenter.deleteCommentarByTimelineId(String.valueOf(timelineId));
+            }
+        });
+        builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alert = builder.create();
+        alert.show();
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -53,8 +53,10 @@ public class LoginRegisterPresenter {
                                 User user = new Gson().fromJson(userObject, type);
                                 String id = userObject.get("id").getAsString();
                                 String token = userObject.get("api_token").getAsString();
+                                String childrenAge  = userObject.get("children_age").getAsString();
                                 SaveUserToken.getInstance().saveUserToken(id,token);
                                 SaveUserData.getInstance().saveUser(user);
+                                SaveUserData.getInstance().saveUserChildrenAge(childrenAge);
                                 loginRegisterView.gotoHome();
                                 Session.getInstance().setLogin(true);
                                 ShowAlert.closeProgresDialog();
@@ -76,11 +78,11 @@ public class LoginRegisterPresenter {
     }
 
 
-    public void userRegister (final Context context, String name, String username, String password){
+    public void userRegister (final Context context, String name, String username, String password, String childrenAge){
         ShowAlert.showProgresDialog(context);
         RetrofitClient.getInstance()
                 .getApi()
-                .register(name,username,password)
+                .register(name,username,password,childrenAge)
                 .enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -90,6 +92,7 @@ public class LoginRegisterPresenter {
                             if (status) {
 //                                String message = body.get("message").getAsString();
                                 ShowAlert.showToast(context,"registrasi berhasil");
+                                SaveUserData.getInstance().saveUserChildrenAge(childrenAge);
                                 loginRegisterView.gotoLogin();
                                 ShowAlert.closeProgresDialog();
                             } else {

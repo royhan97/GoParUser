@@ -10,7 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -21,9 +24,10 @@ import project.roy.socialmedia.ui.account.AccountActivity;
 import project.roy.socialmedia.ui.home.HomeActivity;
 import project.roy.socialmedia.util.ShowAlert;
 
-public class DetailReminderActivity extends AppCompatActivity implements ReminderView {
+public class DetailReminderActivity extends AppCompatActivity implements ReminderView, View.OnClickListener {
 
-    private EditText etReminderTitle, etReminderDescription, etReminderYes, etReminderNo;
+    private TextView tvReminderTitle, tvReminderDescription;
+    private Button btnReminderYes, btnReminderNo;
     private ReminderPresenter detailReminderPresenter;
     private int reminderId;
     private AlertDialog alert;
@@ -47,10 +51,12 @@ public class DetailReminderActivity extends AppCompatActivity implements Reminde
         setTitle("Detail Reminder");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        etReminderTitle = findViewById(R.id.et_reminder_title);
-        etReminderDescription = findViewById(R.id.et_reminder_description);
-        etReminderYes = findViewById(R.id.et_reminder_yes);
-        etReminderNo = findViewById(R.id.et_reminder_no);
+        tvReminderTitle = findViewById(R.id.tv_reminder_title);
+        tvReminderDescription = findViewById(R.id.tv_reminder_description);
+        btnReminderYes = findViewById(R.id.btn_reminder_yes);
+        btnReminderNo = findViewById(R.id.btn_reminder_no);
+        btnReminderYes.setOnClickListener(this);
+        btnReminderNo.setOnClickListener(this);
         reminderId = getIntent().getExtras().getInt("reminderId");
         initPresenter();
 
@@ -140,10 +146,9 @@ public class DetailReminderActivity extends AppCompatActivity implements Reminde
     @Override
     public void onSuccessShowDetailReminder(Reminder reminder) {
         ShowAlert.closeProgresDialog();
-        etReminderTitle.setText(reminder.getReminderTitle());
-        etReminderDescription.setText(reminder.getReminderDescription());
-        etReminderYes.setText(reminder.getReminderYes());
-        etReminderNo.setText(reminder.getReminderNo());
+        tvReminderTitle.setText(reminder.getReminderTitle());
+        tvReminderDescription.setText(reminder.getReminderDescription());
+
         reminder1 = reminder;
         invalidateOptionsMenu();
         if(reminder.getReminderSong() != null){
@@ -250,6 +255,38 @@ public class DetailReminderActivity extends AppCompatActivity implements Reminde
                 }
             }
         });
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.btn_reminder_yes){
+            alertDialogYesNo(reminder1.getReminderYes(), true);
+        }
+
+        if(view.getId() == R.id.btn_reminder_no){
+
+            alertDialogYesNo(reminder1.getReminderNo(), false);
+        }
+    }
+
+
+    public void alertDialogYesNo(String message, boolean doOrNot){
+        builder = new AlertDialog.Builder(DetailReminderActivity.this);
+        if(doOrNot){
+            builder.setTitle("Yes");
+        }else{
+            builder.setTitle("No");
+        }
+        builder.setMessage(message);
+        builder.setCancelable(false);
+        builder.setNegativeButton("Tutup", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alert = builder.create();
+        alert.show();
     }
 
 }

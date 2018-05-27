@@ -25,15 +25,20 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.yarolegovich.lovelydialog.LovelyProgressDialog;
+
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -68,10 +73,11 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     private Toolbar toolbar;
     private CircleImageView imgAvatar;
     private ImageView imgCamera;
-    private TextView txtNama, txtEditPass, txtUsername,edtUsername;
+    private TextView txtNama, txtEditPass, txtUsername,edtUsername, txtEditChildrenAge;
     private ImageView edtNama, imageView;
     private Dialog dialogEdtPass;
     private Dialog dialogEdtName;
+    private Dialog dialogEdtChildrenAge;
     private LovelyProgressDialog waitingDialog;
     private static final int PICK_IMAGE = 1994;
     private AccountPresenter accountPresenter;
@@ -94,9 +100,11 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         edtNama = findViewById(R.id.save_name);
         edtUsername = findViewById(R.id.save_username);
         txtEditPass = findViewById(R.id.txt_edit_password);
+        txtEditChildrenAge = findViewById(R.id.txt_edit_children_age);
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
         dialogEdtPass = new Dialog(this);
         dialogEdtName = new Dialog(this);
+        dialogEdtChildrenAge = new Dialog(this);
 
         progressBar = findViewById(R.id.progressBar);
         imageView =  findViewById(R.id.imageView);
@@ -124,13 +132,13 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.READ_EXTERNAL_STORAGE }, 0);
         }
-
         initView();
 
         imgCamera.setOnClickListener(this);
         edtNama.setOnClickListener(this);
         edtUsername.setOnClickListener(this);
         txtEditPass.setOnClickListener(this);
+        txtEditChildrenAge.setOnClickListener(this);
     }
 
     private void initView() {
@@ -141,6 +149,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(timelineAdapter);
     }
+
 
     @Override
     protected void onResume() {
@@ -159,9 +168,12 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                 ShowAlert.showSnackBar(coordinatorLayout, "File foto tidak ditemukan");
             }
         }
-        else if (!SaveUserData.getInstance().getUser().getPicture().toString().isEmpty()){
-            Picasso.get().load(Constant.BASE_URL+SaveUserData.getInstance().getUser().getPicture().toString())
-                    .into(imgAvatar);
+        else if(SaveUserData.getInstance().getUser().getPicture() != null){
+
+            if (!SaveUserData.getInstance().getUser().getPicture().toString().isEmpty()) {
+                Picasso.get().load(Constant.BASE_URL + SaveUserData.getInstance().getUser().getPicture().toString())
+                        .into(imgAvatar);
+            }
         }
         else {
             ShowAlert.showSnackBar(coordinatorLayout, "Belum tersedia foto profil");
@@ -228,6 +240,62 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
         }
 
+        if(v.getId() == R.id.txt_edit_children_age){
+            EditText etPassword;
+            Spinner spnChildrenAge;
+            Button btnSubmit;
+            TextView txtclose;
+            final String[] childrenAgeSelected = new String[1];
+
+            dialogEdtChildrenAge.setContentView(R.layout.dialog_edit_children_age);
+            btnSubmit = dialogEdtChildrenAge.findViewById(R.id.btn_submit_name);
+            spnChildrenAge = dialogEdtChildrenAge.findViewById(R.id.spn_children_age);
+            etPassword = dialogEdtChildrenAge.findViewById(R.id.password);
+            txtclose = dialogEdtChildrenAge.findViewById(R.id.txtclose);
+            txtclose.setOnClickListener(v1 -> dialogEdtChildrenAge.dismiss());
+            final List<String> list = new ArrayList<String>();
+            list.add("Usia Anak Anda");
+            list.add("< 1 Tahun");
+            list.add("1 Tahun");
+            list.add("2 Tahun");
+            list.add("3 Tahun");
+            ArrayAdapter<String> adp1 = new ArrayAdapter<String>(this,
+                    R.layout.spinner_item, list);
+            adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spnChildrenAge.setAdapter(adp1);
+            if (SaveUserData.getInstance().getChildrenAge() != null) {
+                int spinnerPosition = adp1.getPosition(SaveUserData.getInstance().getChildrenAge());
+                spnChildrenAge.setSelection(spinnerPosition);
+            }
+            spnChildrenAge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+            {
+                @Override
+                public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
+                    // TODO Auto-generated method stub
+                    childrenAgeSelected[0] = list.get(position);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> arg0) {
+                    // TODO Auto-generated method stub
+                }
+            });
+
+            btnSubmit.setOnClickListener(v18 -> {
+                String password = etPassword.getText().toString().trim();
+
+                if (password.isEmpty()) {
+                    etPassword.setError(getResources().getString(R.string.text_password_empty));
+                    etPassword.requestFocus();
+                } else if(childrenAgeSelected[0].isEmpty() && childrenAgeSelected.equals("Usia Anak Anda")){
+                    ShowAlert.showToast(getApplicationContext(), "Anda belum memilih usia anak anda");
+                }else {
+                    accountPresenter.changeProfileChildrenAge(AccountActivity.this, SaveUserData.getInstance().getUser().getName(), SaveUserData.getInstance().getUser().getUsername(), password, childrenAgeSelected[0]);
+                }
+            });
+            dialogEdtChildrenAge.show();
+
+        }
         if (v.getId() == R.id.save_name){
             TextView txtclose;
             Button btnSubmit;
@@ -420,6 +488,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     public void showMessageSnackbar(String message) {
         dialogEdtPass.dismiss();
         dialogEdtName.dismiss();
+        dialogEdtChildrenAge.dismiss();
         ShowAlert.showSnackBar(coordinatorLayout, message);
     }
 
@@ -436,7 +505,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onSuccessShowTimeline(List<Timeline> timelineList) {
-        progressBar.setVisibility(GONE);
+       // progressBar.setVisibility(View.GONE);
         timelineAdapter.setData(timelineList);
     }
 
@@ -456,6 +525,16 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
+    public void onSuccessDeleteTimeline(String message) {
+
+    }
+
+    @Override
+    public void onFailedDeleteTimeline(String message) {
+
+    }
+
+    @Override
     public void onItemClick(Timeline timeline, List<Media> mediaList, User user) {
         Intent intent = new Intent(this, DetailsTimelineActivity.class);
         intent.putExtra("timeline", timeline);
@@ -469,5 +548,15 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = new Intent(this, AccountActivity.class);
         intent.putExtra("idUser", idUser);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDeleteTimeline(int timelineId) {
+
+    }
+
+    @Override
+    public void onNameSelected(User user) {
+
     }
 }

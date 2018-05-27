@@ -9,6 +9,7 @@ public class Constant {
     public static final String USER_TOKEN = "USER_TOKEN";
     public static final String IS_LOGIN = "LOGIN";
     public static final String KEY_PATH_IMG = "REAL_PATH";
+    public static final String CHILDREN_AGE = "children_age";
     public static String BASE_URL = "http://aiondevelop.xyz/";
     public static String KEY_USER = "UserData";
     public static class Profile {

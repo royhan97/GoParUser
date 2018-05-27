@@ -115,7 +115,7 @@ public class AccountPresenter {
         params = new JsonObject();
         params.addProperty("name",name);
         params.addProperty("username",username);
-        params.addProperty("password",password);
+        params.addProperty("password",password);;
         RetrofitClient.getInstance()
                 .getApi()
                 .changeProfile(SaveUserData.getInstance().getUser().getId(),"application/json",params)
@@ -128,6 +128,50 @@ public class AccountPresenter {
                             if (status) {
                                 updateDataUser(username,password);
                                 accountView.showChange(username,name);
+                                accountView.showMessageSnackbar("Profil Berhasil Diubah");
+                                ShowAlert.closeProgresDialog();
+                            } else {
+                                String message = body.get("messages").getAsString();
+                                accountView.showMessage(message);
+                                ShowAlert.closeProgresDialog();
+                            }
+                        }
+                        else {
+                            accountView.showMessage("Profil Gagal Diubah");
+                            ShowAlert.closeProgresDialog();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        accountView.showMessage("Ubah Profil Gagal");
+                        ShowAlert.closeProgresDialog();
+                    }
+                });
+    }
+
+
+    public void changeProfileChildrenAge(Context context, String name, String username, String password, String childrenAge){
+        ShowAlert.showProgresDialog(context);
+        params = new JsonObject();
+        params.addProperty("name",name);
+        params.addProperty("username",username);
+        params.addProperty("password",password);;
+        params.addProperty("children_age", childrenAge);
+        RetrofitClient.getInstance()
+                .getApi()
+                .changeProfile(SaveUserData.getInstance().getUser().getId(),"application/json",params)
+                .enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if (response.isSuccessful()) {
+                            JsonObject body = response.body();
+                            boolean status = body.get("status").getAsBoolean();
+                            if (status) {
+                                updateDataUser(username,password);
+                                accountView.showChange(username,name);
+                                SaveUserData.getInstance().saveUserChildrenAge(childrenAge);
                                 accountView.showMessageSnackbar("Profil Berhasil Diubah");
                                 ShowAlert.closeProgresDialog();
                             } else {

@@ -16,7 +16,8 @@
     </style>
 
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
-         <item name="tabIndicatorColor">@color/purple_700</item>
+         
+        <item name="tabIndicatorColor">@color/purple_700</item>
     </style>
 
     <style name="TextAppearance.Title" parent="@android:style/TextAppearance">
@@ -57,5 +58,9 @@
         <item name="android:textSize">32sp</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

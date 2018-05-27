@@ -39,7 +39,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.RoomCh
 
     @Override
     public void onBindViewHolder(RoomChatViewHolder holder, int position) {
-        holder.tvUserTimeUpload.setText("Dipost oleh "+reminderList.get(position).getUser().getName() + "   "+ reminderList.get(position).getCreatedAt());
+        holder.tvUserTimeUpload.setText("Dipost oleh "+reminderList.get(position).getUser().getName() );
         holder.tvReminderTitle.setText(reminderList.get(position).getReminderTitle());
         holder.tvReminderDescription.setText(reminderList.get(position).getReminderDescription());
         holder.itemView.setOnClickListener(new View.OnClickListener() {

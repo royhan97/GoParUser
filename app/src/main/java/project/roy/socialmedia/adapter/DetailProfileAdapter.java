@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,24 +15,22 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import project.roy.socialmedia.R;
 import project.roy.socialmedia.data.local.SaveUserData;
 import project.roy.socialmedia.data.model.Media;
-import project.roy.socialmedia.data.model.Reminder;
 import project.roy.socialmedia.data.model.Timeline;
 import project.roy.socialmedia.data.model.User;
 import project.roy.socialmedia.util.Constant;
 import project.roy.socialmedia.util.FormatterUtil;
 
-public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.RoomChatViewHolder> {
+public class DetailProfileAdapter extends RecyclerView.Adapter<DetailProfileAdapter.RoomChatViewHolder> {
 
     private Context context;
     private List<Timeline> timelineList;
     private OnDetailListener onDetailListener;
 
-    public TimeLineAdapter(Context context) {
+    public DetailProfileAdapter(Context context) {
         this.context = context;
     }
 
@@ -43,9 +40,9 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.RoomCh
     }
 
     @Override
-    public TimeLineAdapter.RoomChatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RoomChatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item_list_view, parent, false);
-        return new TimeLineAdapter.RoomChatViewHolder(view);
+        return new RoomChatViewHolder(view);
     }
 
     @Override
@@ -92,13 +89,6 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.RoomCh
                 onDetailListener.onDeleteTimeline(timelineList.get(position).getId());
             }
         });
-
-        holder.titleTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onDetailListener.onNameSelected(timelineList.get(position).getUser());
-            }
-        });
     }
 
     public void setOnClickDetailListener(OnDetailListener onDetailListener){
@@ -142,7 +132,5 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.RoomCh
         void onAuthorClick(int idUser);
 
         void onDeleteTimeline(int timelineId);
-
-        void onNameSelected(User user);
     }
 }

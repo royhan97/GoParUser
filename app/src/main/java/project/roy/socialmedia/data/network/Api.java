@@ -30,7 +30,8 @@ public interface Api {
     @FormUrlEncoded
     Call<JsonObject> register (@Field("name") String name,
                                @Field("username") String username,
-                               @Field("password") String password);
+                               @Field("password") String password,
+                               @Field("children_age") String childrenAge);
 
     @POST("api/user/login")
     @FormUrlEncoded
@@ -54,6 +55,10 @@ public interface Api {
 
     @GET("api/reminder/showallreminder")
     Call<JsonObject> showAllReminder();
+
+
+    @GET("api/reminder/showallreminderbyage/{age}")
+    Call<JsonObject> showAllReminderByAge(@Path("age") String age);
 
     @GET("api/reminder/showdetailreminder/{reminderId}")
     Call<JsonObject> showDetailReminder(@Path("reminderId") int reminderId) ;
@@ -81,5 +86,21 @@ public interface Api {
 
     @DELETE("api/timeline/delete/{timelineId}")
     Call<JsonObject> deleteTimeline(@Path("timelineId") int timelineId);
+
+    @POST("api/commentar/post")
+    @FormUrlEncoded
+    Call<JsonObject> postCommentar(@Field("user_id") String userId,
+                                   @Field("timeline_id") String timelineId,
+                                   @Field("timeline_commentar") String timelineCommentar);
+
+
+    @GET("api/commentar/showbytimelineid/{timelineId}")
+    Call<JsonObject> getCommentarByTimelineId(@Path("timelineId") String timelineId);
+
+    @DELETE("api/commentar/delete/{timelineId}")
+    Call<JsonObject> deleteCommentar(@Path("timelineId") String timelineId);
+
+
+
 
 }

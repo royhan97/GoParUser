@@ -326,4 +326,14 @@ public class CreatePostActivity extends PickImageActivity implements TimelineVie
         hideProgress();
         showSnackBar(messages);
     }
+
+    @Override
+    public void onSuccessDeleteTimeline(String message) {
+
+    }
+
+    @Override
+    public void onFailedDeleteTimeline(String message) {
+
+    }
 }
