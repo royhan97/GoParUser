@@ -2,8 +2,8 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/coordinator"
-    android:background="@drawable/login_bg">
+    android:background="@color/white"
+    android:id="@+id/coordinator">
 
     <FrameLayout
         android:id="@+id/frame_container"
@@ -20,7 +20,7 @@
                 android:layout_height="100dp"
                 android:layout_marginTop="50dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/owl"/>
+                android:src="@drawable/logo"/>
 
             <EditText
                 android:id="@+id/name"
@@ -35,8 +35,8 @@
                 android:drawableLeft="@drawable/ic_person_outline_black_24dp"
                 android:drawablePadding="15dp"
                 android:hint="@string/name"
-                android:textColor="@color/white"
-                android:textColorHint="@color/purple_100"
+                android:textColor="@color/grey_800"
+                android:textColorHint="@color/grey_500"
                 android:background="@drawable/bg_input"/>
 
             <EditText
@@ -52,8 +52,8 @@
                 android:drawableLeft="@drawable/ic_person_outline_black_24dp"
                 android:drawablePadding="15dp"
                 android:hint="@string/username"
-                android:textColor="@color/white"
-                android:textColorHint="@color/purple_100"
+                android:textColor="@color/grey_800"
+                android:textColorHint="@color/grey_500"
                 android:background="@drawable/bg_input"/>
 
             <RelativeLayout
@@ -74,8 +74,8 @@
                     android:drawableLeft="@drawable/ic_lock_black_24dp"
                     android:drawablePadding="15dp"
                     android:hint="@string/password"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/purple_100"
+                    android:textColor="@color/grey_800"
+                    android:textColorHint="@color/grey_500"
                     android:background="@drawable/bg_input"/>
 
                 <ImageView
@@ -114,11 +114,11 @@
                 android:layout_below="@id/spn_children_age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_login"
+                android:background="@drawable/login_btn"
                 android:text="@string/btn_register"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/white"
-                android:layout_marginTop="50dp" />
+                android:layout_marginTop="20dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -130,7 +130,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey_800"
                     android:text="@string/have_account"/>
 
                 <TextView
@@ -138,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey_800"
                     android:textStyle="bold"
                     android:text="Login"/>
             </LinearLayout>

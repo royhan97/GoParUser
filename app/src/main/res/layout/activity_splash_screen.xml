@@ -2,9 +2,9 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash_bg"
     tools:context="project.roy.socialmedia.SplashScreenActivity">
 
     <RelativeLayout
@@ -16,7 +16,7 @@
             android:layout_width="130dp"
             android:layout_height="130dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/owl"/>
+            android:src="@drawable/logo"/>
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

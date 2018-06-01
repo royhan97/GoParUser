@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppThemeActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeActionBar" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -17,17 +17,17 @@
 
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
          
-        <item name="tabIndicatorColor">@color/purple_700</item>
+        <item name="tabIndicatorColor">@color/grey_800</item>
     </style>
 
     <style name="TextAppearance.Title" parent="@android:style/TextAppearance">
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/grey_800</item>
     </style>
 
     <style name="TextAppearance.Title.White" parent="@android:style/TextAppearance">
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/grey_800</item>
     </style>
 
     <style name="TextAppearance.Toolbar.Expanded" parent="TextAppearance.Design.CollapsingToolbar.Expanded">

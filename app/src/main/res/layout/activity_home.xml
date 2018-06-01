@@ -7,7 +7,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarlayout"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/white"
         android:layout_height="?attr/actionBarSize"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -18,11 +18,12 @@
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                android:src="@drawable/owl"/>
+                android:src="@drawable/logo"/>
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                app:theme="@style/ThemeOverlay.AppCompat.Light"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
         </RelativeLayout>
     </android.support.design.widget.AppBarLayout>
@@ -30,11 +31,11 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
         app:tabIndicatorHeight="5dp"
-        app:tabIndicatorColor="@color/white"
+        app:tabIndicatorColor="@color/grey_700"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/MyCustomTabLayout"
-        android:background="@color/colorAccent"/>
+        android:background="@color/white"/>
 
      <android.support.v4.view.ViewPager
         android:id="@+id/pager"

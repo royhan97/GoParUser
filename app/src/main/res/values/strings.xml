@@ -68,7 +68,7 @@
     <string name="now_time_range">now</string>
 
     <string name="hint_title">Title</string>
-    <string name="hint_description">Description</string>
+    <string name="hint_description">Ceritakan Momenmu</string>
 
     <string name="post_image_transition_name" translatable="false">post_image_transition</string>
     <string name="post_author_image_transition_name" translatable="false">post_author_image_transition_name</string>

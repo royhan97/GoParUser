@@ -10,6 +10,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.android.gms.gcm.GcmNetworkManager;
+import com.google.android.gms.gcm.PeriodicTask;
+
 import java.util.ArrayList;
 
 import project.roy.socialmedia.R;
@@ -19,6 +22,7 @@ import project.roy.socialmedia.data.local.SaveUserToken;
 import project.roy.socialmedia.data.local.Session;
 import project.roy.socialmedia.data.model.Fragments;
 import project.roy.socialmedia.presenter.HomePresenter;
+import project.roy.socialmedia.service.GcmService;
 import project.roy.socialmedia.ui.account.AccountActivity;
 import project.roy.socialmedia.ui.login.LoginActivity;
 
@@ -45,12 +49,25 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     public void initView(){
         adapter = new TabFragmentAdapter(this, getSupportFragmentManager());
         pager.setAdapter(adapter);
-        tabs.setTabTextColors(getResources().getColor(R.color.purple_100),
-                getResources().getColor(R.color.white));
+        tabs.setTabTextColors(getResources().getColor(R.color.grey_700),
+                getResources().getColor(R.color.grey_800));
         tabs.setupWithViewPager(pager);
         tabs.setTabGravity(TabLayout.GRAVITY_FILL);
         homePresenter = new HomePresenter(this);
         homePresenter.showFragmentList();
+
+        PeriodicTask periodic = new PeriodicTask.Builder()
+                .setService(GcmService.class)
+                .setPeriod(1)
+//                    .setFlex(5)
+                .setTag(GcmService.TAG_LIST_REQUEST)
+                .setPersisted(false)
+                .setRequiredNetwork(com.google.android.gms.gcm.Task.NETWORK_STATE_ANY)
+                .setRequiresCharging(false)
+                .setUpdateCurrent(true)
+                .build();
+
+        GcmNetworkManager.getInstance(this).schedule(periodic);
     }
 
     @Override

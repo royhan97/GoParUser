@@ -129,11 +129,7 @@ public class CreatePostActivity extends PickImageActivity implements TimelineVie
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(title)) {
-            titleEditText.setError(getString(R.string.warning_empty_title));
-            focusView = titleEditText;
-            cancel = true;
-        } else if (!ValidationUtil.isPostTitleValid(title)) {
+        if (!ValidationUtil.isPostTitleValid(title)) {
             titleEditText.setError(getString(R.string.error_post_title_length));
             focusView = titleEditText;
             cancel = true;
