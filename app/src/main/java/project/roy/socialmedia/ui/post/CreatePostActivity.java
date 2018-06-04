@@ -53,6 +53,7 @@ import project.roy.socialmedia.data.model.Timeline;
 import project.roy.socialmedia.presenter.TimelinePresenter;
 import project.roy.socialmedia.ui.timeline.TimelineView;
 import project.roy.socialmedia.util.Constant;
+import project.roy.socialmedia.util.ShowAlert;
 import project.roy.socialmedia.util.ValidationUtil;
 
 public class CreatePostActivity extends PickImageActivity implements TimelineView {
@@ -76,7 +77,6 @@ public class CreatePostActivity extends PickImageActivity implements TimelineVie
         titleEditText = (EditText) findViewById(R.id.titleEditText);
         descriptionEditText = (EditText) findViewById(R.id.descriptionEditText);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
         imageView = (ImageView) findViewById(R.id.imageView);
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +95,10 @@ public class CreatePostActivity extends PickImageActivity implements TimelineVie
         });
 
         presenter = new TimelinePresenter(this);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        setTitle("Post Timeline");
     }
 
     @Override
@@ -184,6 +188,11 @@ public class CreatePostActivity extends PickImageActivity implements TimelineVie
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+
+
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
             case R.id.post:
                 if (!creatingPost) {
                     if (hasInternetConnection()) {
@@ -331,7 +340,10 @@ public class CreatePostActivity extends PickImageActivity implements TimelineVie
     @Override
     public void onSuccessPostTimeline(String messages) {
         hideProgress();
+        ShowAlert.showToast(CreatePostActivity.this, messages);
+
         showSnackBar(messages);
+        super.onBackPressed();
     }
 
     @Override
@@ -349,4 +361,6 @@ public class CreatePostActivity extends PickImageActivity implements TimelineVie
     public void onFailedDeleteTimeline(String message) {
 
     }
+
+
 }

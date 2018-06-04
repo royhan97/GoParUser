@@ -1,5 +1,6 @@
 package project.roy.socialmedia.ui.login;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.RadioGroup;
 
 import project.roy.socialmedia.R;
 import project.roy.socialmedia.presenter.LoginRegisterPresenter;
+import project.roy.socialmedia.ui.home.HomeActivity;
 import project.roy.socialmedia.util.ShowAlert;
 
 public class Register2Activity extends AppCompatActivity implements View.OnClickListener, LoginRegisterView {
@@ -64,11 +66,13 @@ public class Register2Activity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void gotoHome() {
-
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
     public void gotoLogin() {
-        super.onBackPressed();
+        loginPresenter.userLogin(Register2Activity.this, username, password);
     }
 }

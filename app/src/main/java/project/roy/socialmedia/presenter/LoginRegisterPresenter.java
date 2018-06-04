@@ -59,6 +59,7 @@ public class LoginRegisterPresenter {
                                 SaveUserData.getInstance().saveUserChildrenAge(childrenAge);
                                 loginRegisterView.gotoHome();
                                 Session.getInstance().setLogin(true);
+                                ShowAlert.showToast(context, "Selamat datang "+ user.getName());
                                 ShowAlert.closeProgresDialog();
                             } else {
                                 String message = body.get("message").getAsString();

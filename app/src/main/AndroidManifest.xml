@@ -51,7 +51,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".ui.login.Register2Activity"></activity>
+        <activity android:name=".ui.login.Register2Activity" />
+        <activity android:name=".ui.about.AboutActivity"></activity>
     </application>
 
 </manifest>

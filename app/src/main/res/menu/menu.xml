@@ -7,6 +7,11 @@
         app:showAsAction="never"
         android:title="Akun" />
     <item
+        android:id="@+id/about"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="About" />
+    <item
         android:id="@+id/keluar"
         android:orderInCategory="100"
         app:showAsAction="never"

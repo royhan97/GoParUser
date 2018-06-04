@@ -125,7 +125,7 @@ public class TimelineFragment extends Fragment implements TimelineView, TimeLine
         tvEmptyPost.setVisibility(View.VISIBLE);
         rvReminder.setVisibility(View.GONE);
         pb.setVisibility(View.GONE);
-        ShowAlert.showToast(getContext(),messages);
+        ShowAlert.showToast(getActivity(),messages);
     }
 
     @Override
@@ -209,4 +209,6 @@ public class TimelineFragment extends Fragment implements TimelineView, TimeLine
             startActivity(intent);
         }
     }
+
+
 }

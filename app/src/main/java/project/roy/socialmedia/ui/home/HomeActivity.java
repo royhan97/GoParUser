@@ -23,6 +23,7 @@ import project.roy.socialmedia.data.local.Session;
 import project.roy.socialmedia.data.model.Fragments;
 import project.roy.socialmedia.presenter.HomePresenter;
 import project.roy.socialmedia.service.GcmService;
+import project.roy.socialmedia.ui.about.AboutActivity;
 import project.roy.socialmedia.ui.account.AccountActivity;
 import project.roy.socialmedia.ui.login.LoginActivity;
 
@@ -92,6 +93,10 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.akun){
             Intent intent = new Intent(HomeActivity.this, AccountActivity.class);
+            startActivity(intent);
+        }
+        if (item.getItemId() == R.id.about){
+            Intent intent = new Intent(HomeActivity.this, AboutActivity.class);
             startActivity(intent);
         }
         if (item.getItemId() == R.id.keluar){
