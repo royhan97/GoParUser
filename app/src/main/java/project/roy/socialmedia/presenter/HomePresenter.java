@@ -23,22 +23,31 @@ public class HomePresenter {
     }
 
     public void showFragmentList(){
-
-        if(SaveUserData.getInstance().getUser().getChildrenGender().equals("Laki-Laki")){
+        if(SaveUserData.getInstance().getUser().getChildrenGender() != null){
+            if(SaveUserData.getInstance().getUser().getChildrenGender().equals("Laki-Laki")){
+                ArrayList<Fragments> fragmentArrayList = new ArrayList<>();
+                fragmentArrayList.add(new Fragments(new TimelineFragment(), "Timeline", R.drawable.ic_clock_orange));
+                fragmentArrayList.add(new Fragments(new ReminderFragment(), "Reminder", R.drawable.ic_alarm_orange));
+                fragmentArrayList.add(new Fragments(new TipsFragment(), "Tips", R.drawable.ic_receipt_orange));
+                fragmentArrayList.add(new Fragments(new ProfileFragment(), "Profile", R.drawable.ic_person_orange_24dp));
+                homeView.showData(fragmentArrayList);
+            }else {
+                ArrayList<Fragments> fragmentArrayList = new ArrayList<>();
+                fragmentArrayList.add(new Fragments(new TimelineFragment(), "Timeline", R.drawable.ic_clock_pink));
+                fragmentArrayList.add(new Fragments(new ReminderFragment(), "Reminder", R.drawable.ic_alarm_pink));
+                fragmentArrayList.add(new Fragments(new TipsFragment(), "Tips", R.drawable.ic_receipt_pink));
+                fragmentArrayList.add(new Fragments(new ProfileFragment(), "Profile", R.drawable.ic_person_pink));
+                homeView.showData(fragmentArrayList);
+            }
+        }else {
             ArrayList<Fragments> fragmentArrayList = new ArrayList<>();
             fragmentArrayList.add(new Fragments(new TimelineFragment(), "Timeline", R.drawable.ic_clock_orange));
             fragmentArrayList.add(new Fragments(new ReminderFragment(), "Reminder", R.drawable.ic_alarm_orange));
             fragmentArrayList.add(new Fragments(new TipsFragment(), "Tips", R.drawable.ic_receipt_orange));
             fragmentArrayList.add(new Fragments(new ProfileFragment(), "Profile", R.drawable.ic_person_orange_24dp));
             homeView.showData(fragmentArrayList);
-        }else {
-            ArrayList<Fragments> fragmentArrayList = new ArrayList<>();
-            fragmentArrayList.add(new Fragments(new TimelineFragment(), "Timeline", R.drawable.ic_clock_pink));
-            fragmentArrayList.add(new Fragments(new ReminderFragment(), "Reminder", R.drawable.ic_alarm_pink));
-            fragmentArrayList.add(new Fragments(new TipsFragment(), "Tips", R.drawable.ic_receipt_pink));
-            fragmentArrayList.add(new Fragments(new ProfileFragment(), "Profile", R.drawable.ic_person_pink));
-            homeView.showData(fragmentArrayList);
         }
+
 
     }
 }
