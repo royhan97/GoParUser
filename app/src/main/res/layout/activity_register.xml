@@ -20,7 +20,7 @@
                 android:layout_height="100dp"
                 android:layout_marginTop="50dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/logo"/>
+                android:src="@drawable/goparlogo1"/>
 
             <EditText
                 android:id="@+id/name"
@@ -98,10 +98,12 @@
                     android:layout_marginRight="8dp"/>
 
             </RelativeLayout>
+
             <Spinner
                 android:id="@+id/spn_children_age"
+                android:paddingLeft="10dp"
                 android:layout_below="@id/rl_password"
-                android:layout_marginLeft="25dp"
+                android:layout_marginLeft="35dp"
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"

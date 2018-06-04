@@ -27,8 +27,8 @@
         </activity>
         <activity android:name=".ui.login.LoginActivity" />
         <activity android:name=".ui.login.RegisterActivity" />
-        <activity android:name=".ui.home.HomeActivity"></activity>
-        <activity android:name=".ui.account.AccountActivity"></activity>
+        <activity android:name=".ui.home.HomeActivity" />
+        <activity android:name=".ui.account.AccountActivity" />
         <activity android:name=".ui.reminder.DetailReminderActivity" />
         <activity android:name=".ui.tips.DetailTipsActivity" />
         <activity
@@ -36,11 +36,11 @@
             android:theme="@style/AppThemeActionBar" />
         <activity
             android:name=".ui.timeline.DetailsTimelineActivity"
-            android:theme="@style/AppThemeActionBar"></activity>
+            android:theme="@style/AppThemeActionBar" />
         <activity
             android:name=".ui.detailprofile.DetailProfileActivity"
             android:label="@string/title_activity_detail_profile"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
 
         <service
             android:name=".service.GcmService"
@@ -51,6 +51,7 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".ui.login.Register2Activity"></activity>
     </application>
 
 </manifest>

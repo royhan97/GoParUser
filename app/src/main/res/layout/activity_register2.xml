@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.login.Register2Activity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/img_logo"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_marginTop="130dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/goparlogo1"/>
+
+        <TextView
+            android:id="@+id/tv_children_gender"
+            android:layout_below="@+id/img_logo"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/black"
+            android:text="Jenis Kelamin Anak Anda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioGroup
+            android:id="@+id/rg_children_gender"
+            android:layout_below="@id/tv_children_gender"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            <RadioButton
+                android:id="@+id/rb_men"
+                android:text="Laki-Laki"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </RadioButton>
+            <RadioButton
+                android:id="@+id/rb_women"
+                android:text="Perempuan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </RadioButton>
+        </RadioGroup>
+        <Button
+            android:id="@+id/btn_finish"
+            android:layout_below="@id/password"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_btn"
+            android:text="@string/btn_finish"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:layout_marginTop="50dp" />
+
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

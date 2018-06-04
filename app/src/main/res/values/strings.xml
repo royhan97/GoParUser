@@ -4,6 +4,7 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="btn_login">Login</string>
+    <string name="btn_finish">Selesai</string>
     <string name="dont_have_account">Belum memiliki akun?</string>
     <string name="name">Nama</string>
     <string name="btn_register">Daftar</string>

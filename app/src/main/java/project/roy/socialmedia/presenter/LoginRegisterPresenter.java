@@ -78,11 +78,11 @@ public class LoginRegisterPresenter {
     }
 
 
-    public void userRegister (final Context context, String name, String username, String password, String childrenAge){
+    public void userRegister (final Context context, String name, String username, String password, String childrenAge, String childrenGender){
         ShowAlert.showProgresDialog(context);
         RetrofitClient.getInstance()
                 .getApi()
-                .register(name,username,password,childrenAge)
+                .register(name,username,password,childrenAge, childrenGender)
                 .enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

@@ -12,8 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginRegister
         imgVisibility = findViewById(R.id.img_visibility);
         imgInvisibility = findViewById(R.id.img_invisibility);
         spnChildrenAge = findViewById(R.id.spn_children_age);
+
         loginPresenter = new LoginRegisterPresenter(this);
 
         btnRegister.setOnClickListener(this);
@@ -77,6 +81,8 @@ public class RegisterActivity extends AppCompatActivity implements LoginRegister
         list.add("1 Tahun");
         list.add("2 Tahun");
         list.add("3 Tahun");
+
+
         ArrayAdapter<String> adp1 = new ArrayAdapter<String>(this,
                 R.layout.spinner_item, list);
         adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -94,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity implements LoginRegister
                 // TODO Auto-generated method stub
             }
         });
+
     }
 
     @Override
@@ -120,7 +127,13 @@ public class RegisterActivity extends AppCompatActivity implements LoginRegister
                 ShowAlert.showToast(getApplicationContext(), "Anda belum memilih usia anak");
             }
             else {
-                loginPresenter.userRegister(this,name,username, password, childrenAgeSelected);
+                Intent intent = new Intent(this, Register2Activity.class);
+                intent.putExtra("username", username);
+                intent.putExtra("name", name);
+                intent.putExtra("password", password);
+                intent.putExtra("children_age", childrenAgeSelected);
+                startActivity(intent);
+                finish();
             }
         }
         if (v.getId() == R.id.txt_login){

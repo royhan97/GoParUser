@@ -42,6 +42,13 @@ public class User implements Parcelable{
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
+    @SerializedName("children_age")
+    @Expose
+    private String childrenAge;
+
+    @SerializedName("children_gender")
+    @Expose
+    private String childrenGender;
 
     protected User(Parcel in) {
         if (in.readByte() == 0) {
@@ -56,6 +63,8 @@ public class User implements Parcelable{
         apiToken = in.readString();
         createdAt = in.readString();
         updatedAt = in.readString();
+        childrenAge = in.readString();
+        childrenGender = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -150,6 +159,24 @@ public class User implements Parcelable{
         this.updatedAt = updatedAt;
     }
 
+    public String getChildrenAge() {
+        return childrenAge;
+    }
+
+    public void setChildrenAge(String childrenAge) {
+        this.childrenAge = childrenAge;
+    }
+
+    public String getChildrenGender() {
+        return childrenGender;
+    }
+
+    public void setChildrenGender(String childrenGender) {
+        this.childrenGender = childrenGender;
+    }
+
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -170,5 +197,7 @@ public class User implements Parcelable{
         dest.writeString(apiToken);
         dest.writeString(createdAt);
         dest.writeString(updatedAt);
+        dest.writeString(childrenAge);
+        dest.writeString(childrenGender);
     }
 }

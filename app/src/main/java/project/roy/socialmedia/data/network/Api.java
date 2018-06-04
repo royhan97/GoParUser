@@ -31,7 +31,8 @@ public interface Api {
     Call<JsonObject> register (@Field("name") String name,
                                @Field("username") String username,
                                @Field("password") String password,
-                               @Field("children_age") String childrenAge);
+                               @Field("children_age") String childrenAge,
+                               @Field("children_gender") String childrenGender);
 
     @POST("api/user/login")
     @FormUrlEncoded

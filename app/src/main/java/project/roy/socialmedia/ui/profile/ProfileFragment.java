@@ -109,7 +109,6 @@ public class ProfileFragment extends Fragment implements TimelineView, TimeLineA
         tvEmptyPost.setVisibility(View.VISIBLE);
         rvReminder.setVisibility(View.GONE);
         pb.setVisibility(View.GONE);
-        ShowAlert.showToast(getContext(),messages);
     }
 
     @Override
