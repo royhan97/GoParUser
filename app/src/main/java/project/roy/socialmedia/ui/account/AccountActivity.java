@@ -394,6 +394,10 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                     ContextCompat.checkSelfPermission( AccountActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.READ_EXTERNAL_STORAGE }, 0);
             }
+            if ( Build.VERSION.SDK_INT >= 23 &&
+                    ContextCompat.checkSelfPermission( AccountActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+            }
             pickPhoto();
 
         }

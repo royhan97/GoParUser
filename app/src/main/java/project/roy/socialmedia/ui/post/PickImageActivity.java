@@ -147,20 +147,25 @@ public abstract class PickImageActivity extends BaseActivity {
                 this.imageUri = imageUri;
             }
 
+
             // For API >= 23 we need to check specifically that we have permissions to read external storage.
             if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
                 // request permissions and handle the result in onRequestPermissionsResult()
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
-            } else {
+                //requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 400);
+            }else if(CropImage.isExplicitCameraPermissionRequired(this)){
+                requestPermissions(new String[]{Manifest.permission.CAMERA}, CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
+            } else{
                 // no permissions required or already grunted
                 onImagePikedAction();
             }
         }
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if (requestCode == CropImage.CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE) {
+        if (requestCode == CropImage.CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE || requestCode == 400) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 //               gUtlogDebug(TAG, "CAMERA_CAPTURE_PERMISSIONS granted");
                 CropImage.startPickImageActivity(this);
@@ -169,6 +174,7 @@ public abstract class PickImageActivity extends BaseActivity {
 //                LogUtil.logDebug(TAG, "CAMERA_CAPTURE_PERMISSIONS not granted");
             }
         }
+
         if (requestCode == CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE) {
             if (imageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // required permissions granted, start crop image activity
@@ -181,6 +187,8 @@ public abstract class PickImageActivity extends BaseActivity {
 //                LogUtil.logDebug(TAG, "PICK_IMAGE_PERMISSIONS not granted");
             }
         }
+
+
     }
 
     protected void handleCropImageResult(int requestCode, int resultCode, Intent data) {

@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:text="4. Oryza Cyndra Ramadindya"
+                    android:text="4. Oryza Cyndra Ramadhindya"
                     android:textAlignment="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:text="Team Hore"
+                    android:text="Team Pengembang Aplikasi"
                     android:textAlignment="center"
                     android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
@@ -91,6 +91,19 @@
 
                 <TextView
                     android:text="2. Roihan Auliya Ulfattah"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Team Desainer"
+                    android:textAlignment="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="1. Alfin Faidz Ramdhani"
                     android:textAlignment="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

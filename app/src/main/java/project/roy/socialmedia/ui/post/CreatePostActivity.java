@@ -16,9 +16,11 @@
 
 package project.roy.socialmedia.ui.post;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -26,6 +28,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -51,6 +55,7 @@ import project.roy.socialmedia.R;
 import project.roy.socialmedia.data.local.SaveUserData;
 import project.roy.socialmedia.data.model.Timeline;
 import project.roy.socialmedia.presenter.TimelinePresenter;
+import project.roy.socialmedia.ui.home.HomeActivity;
 import project.roy.socialmedia.ui.timeline.TimelineView;
 import project.roy.socialmedia.util.Constant;
 import project.roy.socialmedia.util.ShowAlert;
@@ -99,6 +104,15 @@ public class CreatePostActivity extends PickImageActivity implements TimelineVie
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         setTitle("Post Timeline");
+
+        if ( Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission( CreatePostActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.READ_EXTERNAL_STORAGE }, 0);
+        }
+        if ( Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission( CreatePostActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.READ_EXTERNAL_STORAGE }, 0);
+        }
     }
 
     @Override
@@ -158,13 +172,16 @@ public class CreatePostActivity extends PickImageActivity implements TimelineVie
     protected void savePost(String title, String description) {
         ArrayList<File> media = new ArrayList<>();
         showProgress(R.string.message_creating_post);
-        System.out.println("path uri : " + imageUri.getPath());
-        File file = new File(Objects.requireNonNull(getPath(CreatePostActivity.this, imageUri)));
-        RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
-        fileToUpload = MultipartBody.Part.createFormData("media[]", file.getName(), mFile);
-        filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
-        System.out.println("file uri : " + file);
-        media.add(file);
+        if(imageUri != null){
+            System.out.println("path uri : " + imageUri.getPath());
+            File file = new File(Objects.requireNonNull(getPath(CreatePostActivity.this, imageUri)));
+            RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
+            fileToUpload = MultipartBody.Part.createFormData("media[]", file.getName(), mFile);
+            filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
+            System.out.println("file uri : " + file);
+            media.add(file);
+        }
+
         presenter.postTimeline(SaveUserData.getInstance().getUser().getId(),description, filename, fileToUpload);
 
 

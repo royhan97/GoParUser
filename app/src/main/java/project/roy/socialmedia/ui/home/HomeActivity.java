@@ -1,11 +1,19 @@
 package project.roy.socialmedia.ui.home;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,8 +21,12 @@ import android.view.MenuItem;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.PeriodicTask;
 
+import java.io.File;
 import java.util.ArrayList;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import project.roy.socialmedia.R;
 import project.roy.socialmedia.adapter.TabFragmentAdapter;
 import project.roy.socialmedia.data.local.SaveUserData;
@@ -26,6 +38,7 @@ import project.roy.socialmedia.service.GcmService;
 import project.roy.socialmedia.ui.about.AboutActivity;
 import project.roy.socialmedia.ui.account.AccountActivity;
 import project.roy.socialmedia.ui.login.LoginActivity;
+import pub.devrel.easypermissions.EasyPermissions;
 
 public class HomeActivity extends AppCompatActivity implements HomeView {
 
@@ -34,6 +47,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     private Toolbar toolbar;
     private TabFragmentAdapter adapter;
     private HomePresenter homePresenter;
+    private static final int REQUEST_GALLERY_CODE = 200;
+    private static final int READ_REQUEST_CODE = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +84,14 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
                 .build();
 
         GcmNetworkManager.getInstance(this).schedule(periodic);
+        if ( Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission( HomeActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.READ_EXTERNAL_STORAGE }, 0);
+        }
+        if ( Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission( HomeActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+        }
     }
 
     @Override
@@ -110,4 +133,31 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, HomeActivity.this);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_GALLERY_CODE && resultCode == Activity.RESULT_OK){
+            if(EasyPermissions.hasPermissions(HomeActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+            }else{
+                EasyPermissions.requestPermissions(this, getString(R.string.text_read_file), READ_REQUEST_CODE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+
+            if(EasyPermissions.hasPermissions(HomeActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+            }else{
+                EasyPermissions.requestPermissions(this, getString(R.string.text_read_file), READ_REQUEST_CODE, Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+        }
+
+    }
+
+
+
 }

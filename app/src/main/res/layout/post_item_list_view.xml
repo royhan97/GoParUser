@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/post_list_item_image_height"
                 android:layout_marginBottom="@dimen/intrinsic_padding"
-                android:scaleType="centerCrop" />
+                android:scaleType="fitXY" />
 
             <project.roy.socialmedia.util.CircularImageView
                 android:id="@+id/authorImageView"
