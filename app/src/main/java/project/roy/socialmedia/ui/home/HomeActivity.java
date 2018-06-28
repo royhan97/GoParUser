@@ -37,6 +37,7 @@ import project.roy.socialmedia.presenter.HomePresenter;
 import project.roy.socialmedia.service.GcmService;
 import project.roy.socialmedia.ui.about.AboutActivity;
 import project.roy.socialmedia.ui.account.AccountActivity;
+import project.roy.socialmedia.ui.childrendevelopment.ChildrenDevelopmentActivity;
 import project.roy.socialmedia.ui.login.LoginActivity;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -114,6 +115,10 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.perkembangan_anak){
+            Intent intent = new Intent(HomeActivity.this, ChildrenDevelopmentActivity.class);
+            startActivity(intent);
+        }
         if (item.getItemId() == R.id.akun){
             Intent intent = new Intent(HomeActivity.this, AccountActivity.class);
             startActivity(intent);

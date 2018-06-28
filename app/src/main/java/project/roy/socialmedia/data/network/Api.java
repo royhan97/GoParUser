@@ -108,7 +108,17 @@ public interface Api {
     @DELETE("api/commentar/delete/{timelineId}")
     Call<JsonObject> deleteCommentar(@Path("timelineId") String timelineId);
 
+    @GET("api/ddtk/showallddtk")
+    Call<JsonObject> showAllDDTK();
 
+    @GET("api/ddtk/showallddtkdield/{userId}")
+    Call<JsonObject> showAllDDTKField(@Path("userId") int userId);
 
+    @POST("api/ddtk/postddtkfield")
+    @FormUrlEncoded
+    Call<JsonObject> postDDTK(
+            @Field("user_id") int userId,
+            @Field("ddtk_id") int ddtkIdd,
+            @Field("user_field") int userField);
 
 }
