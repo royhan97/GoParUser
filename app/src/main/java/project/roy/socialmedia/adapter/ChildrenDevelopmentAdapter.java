@@ -40,6 +40,14 @@ public class ChildrenDevelopmentAdapter extends RecyclerView.Adapter<ChildrenDev
 
     @Override
     public void onBindViewHolder(ChildrenDevelopmentViewHolder holder, int position) {
+        if(position % 5 == 0){
+            holder.tvAge.setVisibility(View.VISIBLE);
+            holder.tvAge.setText(ddtkList.get(position).getUsia());
+            holder.line.setVisibility(View.VISIBLE);
+        }else{
+            holder.tvAge.setVisibility(View.GONE);
+            holder.line.setVisibility(View.GONE);
+        }
         holder.tvddtkDescription.setText(ddtkList.get(position).getDdtkDescription());
         if(ddtkList.get(position).getStatus() == 1){
             holder.cbDDTK.setChecked(true);
@@ -70,7 +78,7 @@ public class ChildrenDevelopmentAdapter extends RecyclerView.Adapter<ChildrenDev
         holder.cbDDTK.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
+                if(b && holder.cbDDTK.isEnabled() ){
                     onDetailListener.onItemDetailClicked(ddtkList.get(position).getId(), true);
                 }
             }
@@ -96,9 +104,13 @@ public class ChildrenDevelopmentAdapter extends RecyclerView.Adapter<ChildrenDev
     public class ChildrenDevelopmentViewHolder extends RecyclerView.ViewHolder{
         TextView tvddtkDescription;
         CheckBox cbDDTK;
+        TextView tvAge;
+        View line;
 
         public ChildrenDevelopmentViewHolder(final View itemView) {
             super(itemView);
+            tvAge = itemView.findViewById(R.id.tv_age);
+            line = itemView.findViewById(R.id.line);
             tvddtkDescription = itemView.findViewById(R.id.tv_ddtk_description);
             cbDDTK = itemView.findViewById(R.id.cb_ddtk);
         }

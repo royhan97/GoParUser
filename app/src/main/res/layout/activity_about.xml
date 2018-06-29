@@ -48,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <TextView
-                    android:text="\nGo-Par Team"
+                    android:text="\nTim Go-Par"
                     android:textAlignment="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:text="Team Pendukung"
+                    android:text="Tim Pendukung"
                     android:textAlignment="center"
                     android:layout_marginTop="20dp"
                     android:layout_width="match_parent"

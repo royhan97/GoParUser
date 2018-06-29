@@ -1,5 +1,6 @@
 package project.roy.socialmedia.ui.childrendevelopment;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -22,7 +24,7 @@ import project.roy.socialmedia.presenter.ChildrenDevelopmentPresenter;
 import project.roy.socialmedia.presenter.ReminderPresenter;
 import project.roy.socialmedia.util.ShowAlert;
 
-public class ChildrenDevelopmentActivity extends AppCompatActivity implements ChildrenDevelopmentView, ChildrenDevelopmentAdapter.OnDetailListener {
+public class ChildrenDevelopmentActivity extends AppCompatActivity implements ChildrenDevelopmentView, ChildrenDevelopmentAdapter.OnDetailListener, View.OnClickListener {
 
 
     private ChildrenDevelopmentAdapter childrenDevelopmentAdapter;
@@ -31,7 +33,7 @@ public class ChildrenDevelopmentActivity extends AppCompatActivity implements Ch
     private ProgressBar pbLoading;
     private TextView tvError;
     private SwipeRefreshLayout srlChildrenDevelopment;
-
+    private Button btnChildrenDevelopmentResult;
     private Toolbar toolbar;
 
 
@@ -43,6 +45,8 @@ public class ChildrenDevelopmentActivity extends AppCompatActivity implements Ch
         rvChildrenDevelopment = findViewById(R.id.rv_children_development);
         pbLoading = findViewById(R.id.pb_loading);
         tvError = findViewById(R.id.tv_error);
+        btnChildrenDevelopmentResult = findViewById(R.id.btn_goto_children_development_result);
+        btnChildrenDevelopmentResult.setOnClickListener(this);
         srlChildrenDevelopment = findViewById(R.id.srl_children_development);
         srlChildrenDevelopment.setOnRefreshListener(() -> {
             tvError.setText("");
@@ -144,5 +148,13 @@ public class ChildrenDevelopmentActivity extends AppCompatActivity implements Ch
     @Override
     public void onImgDeleteCommentarSelected(int timelineId) {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.btn_goto_children_development_result){
+            Intent intent = new Intent(this, ChildrenDevelopmetResultActivity.class);
+            startActivity(intent);
+        }
     }
 }

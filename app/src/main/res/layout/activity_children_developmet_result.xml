@@ -22,12 +22,11 @@
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:layout_below="@+id/toolbar"
-            android:id="@+id/srl_children_development"
-            android:layout_above="@id/btn_goto_children_development_result"
+            android:id="@+id/srl_children_development_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_children_development"
+                android:id="@+id/rv_children_development_result"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             </android.support.v7.widget.RecyclerView>
@@ -43,14 +42,7 @@
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/btn_goto_children_development_result"
-            android:background="@color/orange_800"
-            android:text="Lihat Perkembangan Anak"
-            android:textColor="@android:color/white"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+
     </RelativeLayout>
 
 </RelativeLayout>

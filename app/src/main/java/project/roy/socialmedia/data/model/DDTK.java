@@ -17,14 +17,22 @@ public class DDTK {
     @SerializedName("updated_at")
     @Expose
     private Object updatedAt;
+    @SerializedName("usia")
+    @Expose
+    private String usia;
+    @SerializedName("aspek_perkembangan")
+    @Expose
+    private String aspekPerkembangan;
 
     private int status;
 
-    public DDTK(Integer id, String ddtkDescription, Object createdAt, Object updatedAt, int status) {
+    public DDTK(Integer id, String ddtkDescription, Object createdAt, Object updatedAt, String usia, String aspekPerkembangan, int status) {
         this.id = id;
         this.ddtkDescription = ddtkDescription;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.usia = usia;
+        this.aspekPerkembangan = aspekPerkembangan;
         this.status = status;
     }
 
@@ -68,4 +76,19 @@ public class DDTK {
         this.updatedAt = updatedAt;
     }
 
+    public String getUsia() {
+        return usia;
+    }
+
+    public void setUsia(String usia) {
+        this.usia = usia;
+    }
+
+    public String getAspekPerkembangan() {
+        return aspekPerkembangan;
+    }
+
+    public void setAspekPerkembangan(String aspekPerkembangan) {
+        this.aspekPerkembangan = aspekPerkembangan;
+    }
 }

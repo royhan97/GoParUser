@@ -1,7 +1,6 @@
 package project.roy.socialmedia.presenter;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -12,21 +11,20 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import project.roy.socialmedia.data.local.SaveUserData;
-import project.roy.socialmedia.data.model.Commentar;
 import project.roy.socialmedia.data.model.DDTK;
 import project.roy.socialmedia.data.model.DDTKField;
 import project.roy.socialmedia.data.network.RetrofitClient;
+import project.roy.socialmedia.ui.childrendevelopment.ChildrenDevelopmentResultView;
 import project.roy.socialmedia.ui.childrendevelopment.ChildrenDevelopmentView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChildrenDevelopmentPresenter {
+public class ChildrenDevelopmentResultPresenter {
+    private ChildrenDevelopmentResultView childrenDevelopmentResultView;
 
-    private ChildrenDevelopmentView childrenDevelopmentView;
-
-    public ChildrenDevelopmentPresenter (ChildrenDevelopmentView childrenDevelopmentView){
-        this.childrenDevelopmentView = childrenDevelopmentView;
+    public ChildrenDevelopmentResultPresenter (ChildrenDevelopmentResultView childrenDevelopmentResultView){
+        this.childrenDevelopmentResultView = childrenDevelopmentResultView;
     }
 
     public void showAllDDTK(){
@@ -46,16 +44,16 @@ public class ChildrenDevelopmentPresenter {
                                 showAllDDTKDetail(ddtkList);
                                 //childrenDevelopmentView.onSuccessShowAllDdtk(ddtkList);
                             }else{
-                                childrenDevelopmentView.onFailedShowAllDdtk(body.get("messages").getAsString());
+                                childrenDevelopmentResultView.onFailedShowAllDdtk(body.get("messages").getAsString());
                             }
                         }else{
-                            childrenDevelopmentView.onFailedShowAllDdtk("Server Error");
+                            childrenDevelopmentResultView.onFailedShowAllDdtk("Server Error");
                         }
                     }
 
                     @Override
                     public void onFailure(Call<JsonObject> call, Throwable t) {
-                        childrenDevelopmentView.onFailedShowAllDdtk(t.getMessage());
+                        childrenDevelopmentResultView.onFailedShowAllDdtk(t.getMessage());
                     }
                 });
     }
@@ -75,60 +73,33 @@ public class ChildrenDevelopmentPresenter {
                                 Type type = new TypeToken<List<DDTKField>>(){}.getType();
                                 List<DDTKField> ddtkFieldList =  new Gson().fromJson(ddtkArray, type);
                                 Log.d("c", "berubahp "+ ddtkFieldList.size());
-                                    for(int i =0; i< ddtkFieldList.size(); i++ ){
+                                for(int i =0; i< ddtkFieldList.size(); i++ ){
 
-                                        if(ddtkFieldList.get(i).getDdtk().getId() == ddtkList.get(i).getId()){
-                                            ddtkList.set(i, new DDTK(ddtkList.get(i).getId(),
-                                                    ddtkList.get(i).getDdtkDescription(),
-                                                    ddtkList.get(i).getCreatedAt(),
-                                                    ddtkList.get(i).getUpdatedAt(),
-                                                    ddtkList.get(i).getUsia(),
-                                                    ddtkList.get(i).getAspekPerkembangan(),
-                                                    1));
-                                            Log.d("c", "berubah "+ i);
-                                        }
+                                    if(ddtkFieldList.get(i).getDdtk().getId() == ddtkList.get(i).getId()){
+                                        ddtkList.set(i, new DDTK(ddtkList.get(i).getId(),
+                                                ddtkList.get(i).getDdtkDescription(),
+                                                ddtkList.get(i).getCreatedAt(),
+                                                ddtkList.get(i).getUpdatedAt(),
+                                                ddtkList.get(i).getUsia(),
+                                                ddtkList.get(i).getAspekPerkembangan(),
+                                                1));
+                                        Log.d("c", "berubah "+ i);
                                     }
+                                }
 
 
-                                childrenDevelopmentView.onSuccessShowAllDdtk(ddtkList);
+                                childrenDevelopmentResultView.onSuccessShowAllDdtk(ddtkList);
                             }else{
-                                childrenDevelopmentView.onFailedShowAllDdtk(body.get("messages").getAsString());
+                                childrenDevelopmentResultView.onFailedShowAllDdtk(body.get("messages").getAsString());
                             }
                         }else {
-                            childrenDevelopmentView.onFailedShowAllDdtk("Server Error");
+                            childrenDevelopmentResultView.onFailedShowAllDdtk("Server Error");
                         }
                     }
 
                     @Override
                     public void onFailure(Call<JsonObject> call, Throwable t) {
-                        childrenDevelopmentView.onFailedShowAllDdtk(t.getMessage());
-                    }
-                });
-    }
-
-    public void postDDTK(int userId, int ddtkId, int status){
-        RetrofitClient.getInstance()
-                .getApi()
-                .postDDTK(userId, ddtkId, status)
-                .enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        if(response.isSuccessful()){
-                            JsonObject body = response.body();
-                            boolean status = body.get("status").getAsBoolean();
-                            if(status){
-                                childrenDevelopmentView.onSuccessPostDDTK();
-                            }else {
-                                childrenDevelopmentView.onFailedPostDDTK();
-                            }
-                        }else{
-                            childrenDevelopmentView.onFailedPostDDTK();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-                        childrenDevelopmentView.onFailedPostDDTK();
+                        childrenDevelopmentResultView.onFailedShowAllDdtk(t.getMessage());
                     }
                 });
     }
